@@ -31,8 +31,10 @@ jobs:
           $zip = "$env:RUNNER_TEMP\gost.zip"
           $dst = "$env:RUNNER_TEMP\gost"
           Invoke-WebRequest -Uri "https://github.com/ginuerzh/gost/releases/download/v2.11.5/gost-windows-amd64-2.11.5.zip" -OutFile $zip
+          Write-Host "Downloaded: $((Get-Item $zip).Length) bytes"
           Expand-Archive -Path $zip -DestinationPath $dst -Force
-          Get-ChildItem $dst -Recurse -Filter "gost.exe" | Select-Object FullName | Format-Table | Out-String | Write-Host
+          Write-Host "=== Contents of $dst ==="
+          Get-ChildItem $dst -Recurse -Force | Select-Object FullName | Format-Table | Out-String | Write-Host
 
       - name: Start listener with named tunnel
         shell: pwsh
