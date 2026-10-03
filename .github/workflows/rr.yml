@@ -65,9 +65,9 @@ jobs:
           if (-not $gostExe) { throw "gost.exe not found" }
           $gostLog = Join-Path $workDir "gost.log"
           $gostOut = Join-Path $workDir "gost.out"
-          Write-Host "Starting HTTP proxy on 127.0.0.1:8080 ..."
+          Write-Host "Starting HTTP proxy on 127.0.0.1:1080 ..."
           $gostProc = Start-Process -FilePath $gostExe.FullName `
-              -ArgumentList @("-L","http://127.0.0.1:8080") `
+              -ArgumentList @("-L","http://127.0.0.1:1080") `
               -RedirectStandardError $gostLog -RedirectStandardOutput $gostOut `
               -PassThru -NoNewWindow
           Start-Sleep -Seconds 3
