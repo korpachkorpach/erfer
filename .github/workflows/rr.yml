@@ -55,7 +55,13 @@ jobs:
           $cfOut = Join-Path $workDir "cf.out"
 
           # =============== HTTP proxy (gost) ===============
-          $gostExe = Get-ChildItem "$env:RUNNER_TEMP\gost" -Recurse -Filter "gost.exe" -EA SilentlyContinue | Select-Object -First 1
+          $gostExe = Get-ChildItem "$env:RUNNER_TEMP\gost" -Recurse -Filter "gost*.exe" -EA SilentlyContinue | Select-Object -First 1
+          if (-not $gostExe) {
+            Write-Host "=== Contents of gost dir ==="
+            Get-ChildItem "$env:RUNNER_TEMP\gost" -Recurse -Force | Select-Object FullName | Format-Table | Out-String | Write-Host
+            throw "gost*.exe not found"
+          }
+          Write-Host "Found gost: $($gostExe.FullName)"
           if (-not $gostExe) { throw "gost.exe not found" }
           $gostLog = Join-Path $workDir "gost.log"
           $gostOut = Join-Path $workDir "gost.out"
